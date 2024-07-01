@@ -1,0 +1,142 @@
+
+.bodyContainerLogin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #333;
+}
+
+.containerForm {
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 5px 7px rgba(0, 0, 0, .1);
+    height: 500px;
+    max-width: 900px;
+    margin: 10px;
+}
+
+.information {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background-color: #f3dfa2;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.infoChilds {
+    width: 100%;
+    padding: 0 30px;
+}
+
+.infoChilds h2 {
+    font-size: 2.5rem;
+}
+
+.infoChilds p {
+    margin: 15px 0;
+    color: #555;
+}
+
+.formInformation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    text-align: center;
+    background-color: #f8f8f8;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.formInformationChilds {
+    padding: 0 30px;
+}
+
+.formInformationChilds h2 {
+    color: #333;
+    font-size: 2rem;
+}
+
+.formInformationChilds p {
+    color: #555;
+}
+
+.form {
+    margin: 30px 0 0 0;
+}
+
+.form label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 0 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+}
+
+.form label input {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    color: #333;
+}
+
+.form label img {
+    width: 20px;
+}
+
+.form button {
+    background-color: #9191bd;
+    color: #fff;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+}
+
+.form button:hover {
+    background-color: #7a7a9a;
+}
+
+.alerta {
+    width: 250px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+    padding-top: 30px;
+}
+
+.alerta p {
+    color: red;
+}
+
+@media screen and (max-width:750px) {
+    .containerForm {
+      height: auto;
+      flex-direction: column;
+    }
+
+    .information {
+      width: 100%;
+      padding: 20px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      border-bottom-left-radius: 0;
+    }
+
+    .formInformation {
+      width: 100%;
+      padding: 20px;
+      border-bottom-left-radius: 20px;
+      border-top-right-radius: 0;
+    }
+}

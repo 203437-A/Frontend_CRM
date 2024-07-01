@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --tran-03: all 0.3s ease;
+}
+
+/* ESTILOS GLOBALES */
+
+.home {
+  position: absolute;
+  padding: 20px;
+  left: 250px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  transition: var(--tran-05);
+}
+
+.title-container { 
+  display: flex;
+  justify-content: center;
+  font-size: 35px;
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+  background-color: #0F0326;
+  padding: 12px 60px;
+  text-align: center;
+}
+
+.react-tooltip {
+  max-width: 300px; 
+  white-space: normal; 
+}
+
+.edit:hover {
+  color: #236cd3;
+}
+
+.delete:hover {
+  color: #d32323; 
+}
