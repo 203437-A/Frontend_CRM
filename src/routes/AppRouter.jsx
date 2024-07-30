@@ -13,6 +13,8 @@ import Project from '../features/projectManagement/components/ProjectList/Projec
 import ProjectTasks from '../features/projectManagement/components/ProjectTask/ProjectTask';
 import ServicePage from '../features/servicePageManagement/components/ServicePage/ServicePage';
 import Calendar from '../features/calendarManagement/components/Calendar/Calendar';
+import HomePage from '../features/homePage/components/HomePage/HomePage';
+import DeviceStatus from '../features/deviceManagement/components/DeviceStatusPublic/DeviceStatusPublic';
 
 
 export default function AppRouter() {
@@ -21,10 +23,12 @@ export default function AppRouter() {
             <Routes>
                 <Route element={<PublicRoute />}>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/device-status/" element={<DeviceStatus />} />
                 </Route>
                 <Route element={<LayoutWithSidebar />}>
                     <Route element={<PrivateRoute />}>
                         <Route path="/" element={<Home />} />
+                        <Route path="/home" element={<HomePage />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/client" element={<Client />} />
                         <Route path="/client/categories" element={<ClientCategory />} />

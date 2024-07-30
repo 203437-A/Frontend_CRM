@@ -55,41 +55,90 @@ const ClientDetails = ({ isOpen, closeModal, client, refreshClients, categories 
 
     return (
         <Modal isOpen={isOpen} closeModal={closeModal}>
-            <div className="form-container">
-                <form onSubmit={handleSubmit}>
-                    <h2>Editar cliente</h2>
-                    <div className="form-row">
-                        <div className='form-column'>
-                            <label className="form-label">Nombre</label>
-                            <input className="form-input" type="text" name="first_name" value={details.first_name} onChange={handleInputChange} />
-                            <label className="form-label">Apellido</label>
-                            <input className="form-input" type="text" name="last_name" value={details.last_name} onChange={handleInputChange} />
-                        </div>
-                        <div className="form-column">
-                            <label className="form-label">Email</label>
-                            <input className="form-input" type="email" name="email" value={details.email} onChange={handleInputChange} />
-                            <label className="form-label">Teléfono</label>
-                            <input className="form-input" type="text" name="phone_number" value={details.phone_number} onChange={handleInputChange} />
-                        </div>
+            <div className="bg-white p-5 rounded-lg w-full max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+                    <h2 className="col-span-2 text-2xl font-bold mb-4">Editar cliente</h2>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Nombre</label>
+                        <input
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            type="text"
+                            name="first_name"
+                            value={details.first_name}
+                            onChange={handleInputChange}
+                        />
                     </div>
-                    <div className="full-width">
-                        <label className="form-label">Detalles</label>
-                        <textarea className="form-input-details" name="details" value={details.details} onChange={handleInputChange} />
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Apellido</label>
+                        <input
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            type="text"
+                            name="last_name"
+                            value={details.last_name}
+                            onChange={handleInputChange}
+                        />
                     </div>
-                    <div className="full-width">
-                        <label className="form-label">Categorías</label>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Email</label>
+                        <input
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            type="email"
+                            name="email"
+                            value={details.email}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Teléfono</label>
+                        <input
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            type="text"
+                            name="phone_number"
+                            value={details.phone_number}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Detalles</label>
+                        <textarea
+                            className="mt-1 p-2 border border-gray-300 rounded h-20 resize-none"
+                            name="details"
+                            value={details.details}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Categorías</label>
                         <Select
                             isMulti
                             options={categories.map(category => ({ label: category.name, value: category.id }))}
-                            className="basic-multi-select"
+                            className="basic-multi-select mt-1"
                             classNamePrefix="select"
                             onChange={handleCategoryChange}
                             value={details.categories}
                         />
                     </div>
-                    <div className="modal-buttons">
-                        <button type="button" className="button-cancel" onClick={closeModal}>Cancelar</button>
-                        <button type="submit" className="button-submit">Guardar Cambios</button>
+
+                    <div className="col-span-2 flex justify-between mt-4">
+                        <button
+                            type="button"
+                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                            onClick={closeModal}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                        >
+                            Guardar
+                        </button>
                     </div>
                 </form>
             </div>

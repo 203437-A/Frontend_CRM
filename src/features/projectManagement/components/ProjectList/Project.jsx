@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from './project.module.css'; 
 import ProjectDetails from '../ProjectDetails/ProjectDetails'; 
 import ProjectCreate from '../ProjectCreate/ProjectCreate';
+import ProjectCalendarSettings from '../../../calendarManagement/components/CalendarSettings/ProjectCalendarSettings'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css';
+
 
 export default function Project() {
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    const openSettingsModal = () => setIsSettingsModalOpen(true);
+    const closeSettingsModal = () => setIsSettingsModalOpen(false);
     const [filters, setFilters] = useState({
         clientName: "",
         projectName: "",
@@ -92,29 +94,32 @@ export default function Project() {
     };
 
     return (
-        <div className='home'>
+        <div className="home p-5">
             <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-            <h2 className='title-container'>Gestión de Proyectos</h2>
-            <div className={styles.filterContainer}>
-                <span>FILTROS</span>
-                <input 
-                    type="text" 
-                    name="clientName" 
-                    placeholder="Buscar por nombre del cliente..." 
-                    value={filters.clientName} 
-                    onChange={handleFilterChange} 
-                />
-                <input 
-                    type="text" 
-                    name="projectName" 
-                    placeholder="Buscar por nombre del proyecto..." 
-                    value={filters.projectName} 
-                    onChange={handleFilterChange} 
-                />
-                <select 
-                    name="projectStatus" 
-                    value={filters.projectStatus} 
+            <h2 className="text-center text-2xl font-bold text-white bg-gray-900 rounded-lg p-5 mb-5">Gestión de Proyectos</h2>
+            <div className="mb-5 flex items-center gap-2 flex-wrap">
+                <span className="font-bold text-gray-700">FILTROS</span>
+                <input
+                    type="text"
+                    name="clientName"
+                    placeholder="Buscar por nombre del cliente..."
+                    value={filters.clientName}
                     onChange={handleFilterChange}
+                    className="flex-grow p-2 border border-gray-300 rounded"
+                />
+                <input
+                    type="text"
+                    name="projectName"
+                    placeholder="Buscar por nombre del proyecto..."
+                    value={filters.projectName}
+                    onChange={handleFilterChange}
+                    className="flex-grow p-2 border border-gray-300 rounded"
+                />
+                <select
+                    name="projectStatus"
+                    value={filters.projectStatus}
+                    onChange={handleFilterChange}
+                    className="p-2 border border-gray-300 rounded"
                 >
                     <option value="">Todos los estados</option>
                     <option value="activo">Activo</option>
@@ -122,56 +127,50 @@ export default function Project() {
                     <option value="pausado">Pausado</option>
                 </select>
             </div>
-            <table className={styles.styledTable}>
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Proyecto</th>
-                        <th>Descripción</th>
-                        <th>Estado del proyecto</th>
-                        <th>Encargado</th>
-                        <th>Fecha de inicio</th>
-                        <th>Fecha de finalización</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredProjects.map(project => (
-                        <tr key={project.id}>
-                            <td>{project.client_name}</td>
-                            <td data-tooltip-id="project-tooltip" data-tooltip-content={project.name}>{project.name}</td>
-                            <td data-tooltip-id="project-tooltip" data-tooltip-content={project.description}>{project.description}</td>
-                            <td>{project.status_display}</td>
-                            <td>{project.manage_user_name}</td>
-                            <td data-tooltip-id="project-tooltip" data-tooltip-content={formatDate(project.start_date)}>{formatDate(project.start_date)}</td>
-                            <td data-tooltip-id="project-tooltip" data-tooltip-content={formatDate(project.finished_date)}>{project.finished_date ? formatDate(project.finished_date) : 'N/A'}</td>
-                            <td>
-                                <button onClick={() => openTasksPage(project.id)} className={styles.iconBtn}>
-                                    <i className='bx bx-task'></i>
-                                </button>
-                                <button onClick={() => openDetailsModal(project)} className={styles.iconBtn}>
-                                    <i className='bx bxs-edit-alt edit'></i>
-                                </button>
-                                <button onClick={() => handleDeleteProject(project.id)} className={styles.iconBtn}>
-                                    <i className='bx bxs-trash-alt delete'></i>
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ReactTooltip id="project-tooltip" multiline={true} effect="solid"/>
+            <div className="mb-5 flex justify-center gap-2">
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800" onClick={openModal}>Crear Proyecto</button>
+                <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-800" onClick={openSettingsModal}>Opciones</button>
+            </div>
+            <div className="flex flex-wrap gap-5 justify-center">
+                {filteredProjects.map(project => (
+                    <div key={project.id} className="bg-white rounded shadow-md w-full max-w-sm p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 className="text-lg font-bold mb-2">{project.name}</h3>
+                            <p className="mb-2"><strong>Cliente:</strong> {project.client_name}</p>
+                            <p className="mb-2"><strong>Descripción:</strong> {project.description}</p>
+                            <p className="mb-2"><strong>Estado del proyecto:</strong> {project.status_display}</p>
+                            <p className="mb-2"><strong>Encargado:</strong> {project.manage_user_name}</p>
+                            <p className="mb-2"><strong>Fecha de inicio:</strong> {formatDate(project.start_date)}</p>
+                            <p className="mb-2"><strong>Fecha de finalización:</strong> {project.finished_date ? formatDate(project.finished_date) : 'N/A'}</p>
+                        </div>
+                        <div className="flex justify-end gap-2 mt-3">
+                            <button onClick={() => openTasksPage(project.id)} className="text-xl text-black-600 hover:text-green-600">
+                                <i className='bx bx-task'></i>
+                            </button>
+                            <button onClick={() => openDetailsModal(project)} className="text-xl text-black-600 hover:text-blue-600">
+                                <i className='bx bxs-edit-alt'></i>
+                            </button>
+                            <button onClick={() => handleDeleteProject(project.id)} className="text-xl text-black-600 hover:text-red-600">
+                                <i className='bx bxs-trash-alt'></i>
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
             <ProjectDetails
                 isOpen={isDetailsModalOpen}
                 closeModal={closeDetailsModal}
                 project={selectedProject}
                 refreshProjects={fetchProjects}
             />
-            <button className={styles.createButton} onClick={openModal}>Crear Proyecto</button>
             <ProjectCreate
                 isOpen={isModalOpen}
                 closeModal={closeModal}
                 refreshProjects={fetchProjects}
+            />
+            <ProjectCalendarSettings
+                isOpen={isSettingsModalOpen}
+                closeModal={closeSettingsModal}
             />
         </div>
     );

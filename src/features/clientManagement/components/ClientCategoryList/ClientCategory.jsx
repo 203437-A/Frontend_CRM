@@ -3,7 +3,6 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import styles from './clientCategory.module.css';
 import ClientCategoryCreate from '../ClientCategoryCreate/ClientCategoryCreate';
 import ClientCategoryDetails from '../ClientCategoryDetails/ClientCategoryDetails';
 
@@ -56,39 +55,39 @@ export default function ClientCategory() {
     const goToClient = () => navigate('/client');
 
     return (
-        <div className='home'>
+        <div className="home p-5">
             <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-            <h2 className='title-container'>Categorías</h2>
-            <div className={styles.filterContainer}>
-                <span>FILTROS</span>
-                <input type="text" placeholder="Buscar por nombre..." value={filter} onChange={handleFilterChange} />
+            <h2 className="text-center text-2xl font-bold text-white bg-gray-900 rounded-lg p-5 mb-5">Categorías</h2>
+            <div className="mb-5 flex items-center gap-2 flex-wrap">
+                <span className="font-bold text-gray-700">FILTROS</span>
+                <input
+                    type="text"
+                    placeholder="Buscar por nombre..."
+                    value={filter}
+                    onChange={handleFilterChange}
+                    className="flex-grow p-2 border border-gray-300 rounded"
+                />
             </div>
-            <table className={styles.styledTable}>
-                <thead>
-                    <tr>
-                        <th>Nombre de la categoría</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredCategories.map(category => (
-                        <tr key={category.id}>
-                            <td>{category.name}</td>
-                            <td>
-                                <button onClick={() => handleSelectCategory(category)} className={styles.iconBtn}>
-                                    <i className='bx bxs-edit-alt edit'></i>
-                                </button>
-                                <button onClick={() => handleDeleteCategory(category.id)} className={styles.iconBtn}>
-                                    <i className='bx bxs-trash-alt delete' ></i>
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className={styles.buttonContainer}>
-                <button className={styles.createButton} onClick={goToClient}>Regresar a Clientes</button>
-                <button className={styles.createButton} onClick={() => setIsCreateModalOpen(true)}>Crear Categoría</button>
+            <div className="mb-5 flex justify-center gap-2">
+                <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800" onClick={goToClient}>Regresar a Clientes</button>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800" onClick={() => setIsCreateModalOpen(true)}>Crear Categoría</button>
+            </div>
+            <div className="flex flex-wrap gap-5 justify-center">
+                {filteredCategories.map(category => (
+                    <div key={category.id} className="bg-white rounded shadow-md w-full max-w-sm p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 className="text-lg font-bold mb-2">{category.name}</h3>
+                        </div>
+                        <div className="flex justify-end gap-2 mt-3">
+                            <button onClick={() => handleSelectCategory(category)} className="text-xl text-black-600 hover:text-blue-600">
+                                <i className="bx bxs-edit-alt"></i>
+                            </button>
+                            <button onClick={() => handleDeleteCategory(category.id)} className="text-xl text-black-600 hover:text-red-600">
+                                <i className="bx bxs-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
             <ClientCategoryCreate
                 isOpen={isCreateModalOpen}

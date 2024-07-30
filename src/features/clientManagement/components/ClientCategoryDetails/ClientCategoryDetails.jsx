@@ -32,22 +32,22 @@ const ClientCategoryDetails = ({ isOpen, closeModal, category, refreshCategories
 
     return (
         <Modal isOpen={isOpen} closeModal={closeModal}>
-            <div className="form-container">
-                <form onSubmit={handleSubmit}>
-                    <h2>Editar Categoría</h2>
-                    <div className="full-width">
-                        <label className='form-label'>Nombre de la categoría</label>
+            <div className="bg-white p-5 rounded-lg w-full max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+                    <h2 className="text-2xl font-bold mb-4">Editar Categoría</h2>
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Nombre de la categoría</label>
                         <input
-                            className='form-input'
+                            className="mt-1 p-2 border border-gray-300 rounded"
                             type="text"
                             value={name}
                             onChange={e => setName(e.target.value)}
                             required
                         />
                     </div>
-                    <div className="modal-buttons">
-                        <button type="button" className="button-cancel" onClick={closeModal}>Cancelar</button>
-                        <button type="submit" className="button-submit">Actualizar Categoria</button>
+                    <div className="flex justify-between mt-4">
+                        <button type="button" className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onClick={closeModal}>Cancelar</button>
+                        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Actualizar</button>
                     </div>
                 </form>
             </div>

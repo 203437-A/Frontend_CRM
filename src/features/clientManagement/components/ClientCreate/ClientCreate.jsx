@@ -55,42 +55,96 @@ const ClientCreate = ({ isOpen, closeModal, refreshClients, categories }) => {
     }));
 
     return (
-        <Modal isOpen={isOpen} closeModal={handleClose}>
-            <div className="form-container">
-                <form onSubmit={handleSubmit}>
-                    <h2>Crear Cliente</h2>
-                    <div className="form-row">
-                        <div className="form-column">
-                            <label className="form-label">Nombre</label>
-                            <input type="text" className="form-input" name="first_name" value={formData.first_name} onChange={handleChange} required />
-                            <label className="form-label">Apellido</label>
-                            <input type="text" className="form-input" name="last_name" value={formData.last_name} onChange={handleChange} required />
-                        </div>
-                        <div className="form-column">
-                            <label className="form-label">Correo</label>
-                            <input type="email" className="form-input" name="email" value={formData.email} onChange={handleChange} required />
-                            <label className="form-label">Teléfono</label>
-                            <input type="text" className="form-input" name="phone_number" value={formData.phone_number} onChange={handleChange} required />
-                        </div>
+        <Modal isOpen={isOpen} closeModal={closeModal}>
+            <div className="bg-white p-5 rounded-lg w-full max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+                    <h2 className="col-span-2 text-2xl font-bold mb-4">Crear Cliente</h2>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Nombre</label>
+                        <input
+                            type="text"
+                            name="first_name"
+                            value={formData.first_name}
+                            onChange={handleChange}
+                            required
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                        />
                     </div>
-                    <div className="full-width">
-                        <label className="form-label">Detalles</label>
-                        <textarea className="form-input-details" name="details" value={formData.details} onChange={handleChange} required />
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Apellido</label>
+                        <input
+                            type="text"
+                            name="last_name"
+                            value={formData.last_name}
+                            onChange={handleChange}
+                            required
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                        />
                     </div>
-                    <div className="full-width">
-                        <label className="form-label">Categorías</label>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Correo</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Teléfono</label>
+                        <input
+                            type="text"
+                            name="phone_number"
+                            value={formData.phone_number}
+                            onChange={handleChange}
+                            required
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                        />
+                    </div>
+
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Detalles</label>
+                        <textarea
+                            name="details"
+                            value={formData.details}
+                            onChange={handleChange}
+                            required
+                            className="mt-1 p-2 border border-gray-300 rounded h-20 resize-none"
+                        />
+                    </div>
+
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Categorías</label>
                         <Select
                             isMulti
                             options={categoryOptions}
-                            className="basic-multi-select"
+                            className="basic-multi-select mt-1"
                             classNamePrefix="select"
                             onChange={handleCategoryChange}
                             value={categoryOptions.filter(option => formData.categories.includes(option.value))}
                         />
                     </div>
-                    <div className="modal-buttons">
-                        <button type="button" className="button-cancel" onClick={handleClose}>Cancelar</button>
-                        <button type="submit" className="button-submit">Crear Cliente</button>
+
+                    <div className="col-span-2 flex justify-between mt-4">
+                        <button
+                            type="button"
+                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                            onClick={closeModal}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                        >
+                            Crear
+                        </button>
                     </div>
                 </form>
             </div>

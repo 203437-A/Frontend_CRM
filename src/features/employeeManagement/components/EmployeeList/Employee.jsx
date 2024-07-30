@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './employee.module.css';
 import EmployeeDetails from '../EmployeeDetails/EmployeeDetails'; 
 import EmployeeCreate from '../EmployeeCreate/EmployeeCreate';
 import { ToastContainer, toast } from 'react-toastify';
@@ -106,68 +105,69 @@ export default function Employee() {
     //FIN
 
     return (
-        <div className='home'>
+        <div className="home p-5">
             <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-            <h2 className='title-container'>Empleados</h2>
-            <div className={styles.filterContainer}>
-                <span>FILTROS</span>
-                <input type="text" placeholder="Buscar por nombre..." value={filter} onChange={handleFilterChange} />
-                <label>
-                    <input type="checkbox" checked={isStaffFilter} onChange={handleIsStaffChange} />
+            <h2 className="text-center text-2xl font-bold text-white bg-gray-900 rounded-lg p-5 mb-5">Empleados</h2>
+            <div className="mb-5 flex items-center gap-2 flex-wrap">
+                <span className="font-bold text-gray-700">FILTROS</span>
+                <input
+                    type="text"
+                    placeholder="Buscar por nombre..."
+                    value={filter}
+                    onChange={handleFilterChange}
+                    className="flex-grow p-2 border border-gray-300 rounded"
+                />
+                <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={isStaffFilter} onChange={handleIsStaffChange} className="form-checkbox" />
                     Solo administradores
                 </label>
-                <label>
-                    <input type="checkbox" checked={nonAdminFilter} onChange={handleNonAdminChange} />
+                <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={nonAdminFilter} onChange={handleNonAdminChange} className="form-checkbox" />
                     Solo empleados
                 </label>
             </div>
-            <table className={styles.styledTable}>
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>¿Es administrador?</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredEmployees.map(employee => (
-                        <tr key={employee.id} className={employee.is_staff ? styles.adminRow : ""}>
-                            <td>{employee.username}</td>
-                            <td>{employee.first_name}</td>
-                            <td>{employee.last_name}</td>
-                            <td data-tooltip-id="email-tooltip" data-tooltip-content={employee.email}>{employee.email}</td>
-                            <td>{employee.phone_number}</td>
-                            <td>{employee.is_staff ? "Sí" : "No"}</td>
-                            <td>
-                                <button onClick={() => openDetailsModal(employee)} className={styles.iconBtn}>
-                                    <i className='bx bxs-edit-alt edit'></i>
-                                </button>
-                                <button onClick={() => handleDeleteEmployee(employee.id)} className={styles.iconBtn}>
-                                    <i className='bx bxs-trash-alt delete' ></i>
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ReactTooltip id="email-tooltip" />
+            <div className="mb-5 flex justify-center gap-2">
+               <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800" onClick={openModal}>Crear Empleado</button>
+            </div>
+            <div className="flex flex-wrap gap-5 justify-center">
+                {filteredEmployees.map(employee => (
+                    <div key={employee.id} className={`relative bg-white rounded shadow-md w-full max-w-sm p-5 flex flex-col justify-between`}>
+                        {employee.is_staff && (
+                            <div className="absolute top-2 right-2 text-green-500">
+                                <i className="bx bx-check-circle text-2xl"></i>
+                            </div>
+                        )}
+                        <div>
+                            <h3 className="text-lg font-bold mb-2">{employee.username}</h3>
+                            <p className="mb-2"><strong>Nombre:</strong> {employee.first_name}</p>
+                            <p className="mb-2"><strong>Apellido:</strong> {employee.last_name}</p>
+                            <p className="mb-2" ><strong>Correo:</strong> {employee.email}</p>
+                            <p className="mb-2"><strong>Teléfono:</strong> {employee.phone_number}</p>
+                            <p className="mb-2"><strong>¿Es administrador?:</strong> {employee.is_staff ? "Sí" : "No"}</p>
+                        </div>
+                        <div className="flex justify-end gap-2 mt-3">
+                            <button onClick={() => openDetailsModal(employee)} className="text-xl text-black hover:text-blue-600">
+                                <i className='bx bxs-edit-alt'></i>
+                            </button>
+                            <button onClick={() => handleDeleteEmployee(employee.id)} className="text-xl text-black hover:text-red-600">
+                                <i className='bx bxs-trash-alt'></i>
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
             <EmployeeDetails
                 isOpen={isDetailsModalOpen}
                 closeModal={closeDetailsModal}
                 employee={selectedEmployee}
                 refreshEmployees={fetchEmployees}
             />
-            <button className={styles.createButton} onClick={openModal}>Crear Empleado</button>
             <EmployeeCreate
                 isOpen={isModalOpen}
                 closeModal={closeModal}
                 refreshEmployees={fetchEmployees}
             />
         </div>
-      );
+    );
 }
 

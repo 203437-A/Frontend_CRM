@@ -32,7 +32,7 @@ const Sidebar = () => {
                     <div className="menu">
                         <ul className="menu-links">
                             <li className="nav-link">
-                                <a href="#">
+                                <a href="/home">
                                     <i className='bx bxs-home icon'></i>
                                     <span className="text nav-text">Home</span>
                                 </a>

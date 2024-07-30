@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'; 
-import styles from './profile.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
     const [user, setUser] = useState({
@@ -26,7 +25,7 @@ const Profile = () => {
 
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/employees/${user_id}`);
+                const response = await axios.get(`/employees/${user_id}`);
                 setUser({
                     username: response.data.username,
                     first_name: response.data.first_name,
@@ -78,34 +77,39 @@ const Profile = () => {
     };
     
     return (
-        <div className='home'>
+        <div className="home p-5">
             <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnHover draggable />
-            <h2 className='title-container'>Perfil</h2> 
-            <div className={styles.formProfileChilds}> 
-                <form onSubmit={handleSubmit} className={styles.formProfile}> 
-                    <label>
-                        Usuario
-                        <input type="text" value={user.username} onChange={handleChange} name="username" required />
-                    </label>
-                    <label>
-                        Nombre
-                        <input type="text" value={user.first_name} onChange={handleChange} name="first_name" required />
-                    </label>
-                    <label>
-                        Apellido
-                        <input type="text" value={user.last_name} onChange={handleChange} name="last_name" required />
-                    </label>
-                    <label>
-                        Correo
-                        <input type="email" value={user.email} onChange={handleChange} name="email" required />
-                    </label>
-                    <label>
-                        Teléfono
-                        <input type="text" value={user.phone_number} onChange={handleChange} name="phone_number" required pattern="^\d{1,13}$" title="El número de teléfono debe contener hasta 13 dígitos." />
-                    </label>
-                    {error && <p className={styles.formProfileError}>{error}</p>} 
-                    <div className={styles.buttonsContainerProfile}> 
-                        <button type="submit">Salvar datos</button>
+            <h2 className="text-center text-2xl font-bold text-white bg-gray-900 rounded-lg p-5 mb-5">Perfil</h2>
+            <div className="w-full mx-auto p-6">
+                <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+                    <div>
+                        <label className="block font-bold text-gray-700">Usuario</label>
+                        <input type="text" value={user.username} onChange={handleChange} name="username" required className="w-full mt-1 p-2 border border-gray-300 rounded" />
+                    </div>
+
+                    <div>
+                        <label className="block font-bold text-gray-700">Nombre</label>
+                        <input type="text" value={user.first_name} onChange={handleChange} name="first_name" required className="w-full mt-1 p-2 border border-gray-300 rounded" />
+                    </div>
+
+                    <div>
+                        <label className="block font-bold text-gray-700">Apellido</label>
+                        <input type="text" value={user.last_name} onChange={handleChange} name="last_name" required className="w-full mt-1 p-2 border border-gray-300 rounded" />
+                    </div>
+
+                    <div>
+                        <label className="block font-bold text-gray-700">Correo</label>
+                        <input type="email" value={user.email} onChange={handleChange} name="email" required className="w-full mt-1 p-2 border border-gray-300 rounded" />
+                    </div>
+
+                    <div>
+                        <label className="block font-bold text-gray-700">Teléfono</label>
+                        <input type="text" value={user.phone_number} onChange={handleChange} name="phone_number" required pattern="^\d{1,13}$" title="El número de teléfono debe contener hasta 13 dígitos." className="w-full mt-1 p-2 border border-gray-300 rounded" />
+                    </div>
+                    
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    <div className="flex justify-center mt-4">
+                        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">Salvar datos</button>
                     </div>
                 </form>
             </div>

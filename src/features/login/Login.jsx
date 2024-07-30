@@ -19,7 +19,7 @@ const Login = () => {
             login(response.data);
             toast.success("Inicio de sesión exitoso. Bienvenido!");
             setTimeout(() => { 
-                navigate('/profile/');
+                navigate('/home/');
             }, 1000);
         } catch (error) {
             console.error('Error de inicio de sesión:', error);

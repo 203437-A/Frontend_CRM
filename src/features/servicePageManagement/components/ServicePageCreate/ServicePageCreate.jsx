@@ -4,7 +4,7 @@ import Modal from '../../../../components/common/Modal/Modal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ServicePageCreate = ({ isOpen, closeModal, refreshServices }) => {
+const ServicePageCreate = ({ isOpen, closeModal, refreshServices, hourlyRate }) => {
     const [formData, setFormData] = useState({
         project: '',
         name: '',
@@ -21,6 +21,10 @@ const ServicePageCreate = ({ isOpen, closeModal, refreshServices }) => {
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        calculateTotalCost();
+    }, [formData.inverted_hours, formData.material_cost, hourlyRate]);
+
     const fetchProjects = async () => {
         try {
             const response = await axios.get('/projects/');
@@ -34,6 +38,11 @@ const ServicePageCreate = ({ isOpen, closeModal, refreshServices }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    const calculateTotalCost = () => {
+        const totalCost = (formData.inverted_hours * hourlyRate) + parseFloat(formData.material_cost);
+        setFormData({ ...formData, total_cost: totalCost.toFixed(2) });
     };
 
     const handleSubmit = async (event) => {
@@ -63,13 +72,14 @@ const ServicePageCreate = ({ isOpen, closeModal, refreshServices }) => {
 
     return (
         <Modal isOpen={isOpen} closeModal={closeModal}>
-            <div className="form-container">
-                <form onSubmit={handleSubmit}>
-                    <h2>Crear Servicio</h2>
-                    <div className="full-width">
-                        <label className="form-label">Proyecto</label>
+            <div className="bg-white p-5 rounded-lg w-full max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+                    <h2 className="col-span-2 text-2xl font-bold mb-4">Crear Servicio</h2>
+                    
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Proyecto</label>
                         <select
-                            className="form-select"
+                            className="mt-1 p-2 border border-gray-300 rounded"
                             name="project"
                             value={formData.project}
                             onChange={handleChange}
@@ -83,29 +93,66 @@ const ServicePageCreate = ({ isOpen, closeModal, refreshServices }) => {
                             ))}
                         </select>
                     </div>
-                    <div className="form-row">
-                        <div className="form-column">
-                            <label className="form-label">Descripcion</label>
-                            <input type="text" className="form-input" name="name" value={formData.name} onChange={handleChange} required />
-
-                            <label className="form-label">Horas Invertidas</label>
-                            <input type="number" className="form-input" name="inverted_hours" value={formData.inverted_hours} onChange={handleChange} required />
-                        </div>
-                        <div className="form-column">
-                            <label className="form-label">Costo de Materiales</label>
-                            <input type="number" className="form-input" name="material_cost" value={formData.material_cost} onChange={handleChange} required />
-
-                            <label className="form-label">Costo Total</label>
-                            <input type="number" className="form-input" name="total_cost" value={formData.total_cost} onChange={handleChange} required />
-                        </div>
+                    
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Horas Invertidas</label>
+                        <input
+                            type="number"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="inverted_hours"
+                            value={formData.inverted_hours}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                    <div className="full-width">
-                        <label className="form-label">Descripción</label>
-                        <textarea className="form-input-details" name="description" value={formData.description} onChange={handleChange} />
+                    
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Costo de Materiales</label>
+                        <input
+                            type="number"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="material_cost"
+                            value={formData.material_cost}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                    <div className="modal-buttons">
-                        <button type="button" className="button-cancel" onClick={closeModal}>Cancelar</button>
-                        <button type="submit" className="button-submit">Crear Servicio</button>
+                    
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Costo Total</label>
+                        <input
+                            type="number"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="total_cost"
+                            value={formData.total_cost}
+                            readOnly
+                        />
+                    </div>
+                    
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Descripción</label>
+                        <textarea
+                            className="mt-1 p-2 border border-gray-300 rounded h-20 resize-none"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    
+                    <div className="col-span-2 flex justify-between mt-4">
+                        <button
+                            type="button"
+                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                            onClick={closeModal}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                        >
+                            Crear
+                        </button>
                     </div>
                 </form>
             </div>

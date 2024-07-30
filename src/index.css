@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 * {
   padding: 0;
   margin: 0;
@@ -46,4 +47,43 @@
 
 .delete:hover {
   color: #d32323; 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home {
+    left: 80px; 
+    width: calc(100% - 80px);
+  }
+
+  .title-container {
+    font-size: 28px;
+    padding: 10px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home {
+    left: 80px; 
+    width: calc(100% - 90px);
+    padding: 10px;
+  }
+
+  .title-container {
+    font-size: 24px;
+    padding: 8px 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .home {
+    left: 80px; 
+    width: calc(100% - 50px);
+    padding: 8px;
+  }
+
+  .title-container {
+    font-size: 20px;
+    padding: 6px 15px;
+  }
 }

@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import styles from './servicePage.module.css'; 
 import ServicePageDetails from '../ServicePageDetails/ServicePageDetails'; 
 import ServicePageCreate from '../ServicePageCreate/ServicePageCreate';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css'
+import 'react-tooltip/dist/react-tooltip.css';
+import AdminHourlyRate from '../AdminHourlyRate/AdminHourlyRate';
+import { useAuth } from '../../../../contexts/AuthContext';
 
 export default function ServicePage() {
+    const { user } = useAuth();
     const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [isHourlyRateModalOpen, setIsHourlyRateModalOpen] = useState(false);
+    const [hourlyRate, setHourlyRate] = useState(null);  // Cambiado a null para manejar el estado de carga inicial
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    const openHourlyRateModal = () => setIsHourlyRateModalOpen(true);
+    const closeHourlyRateModal = () => setIsHourlyRateModalOpen(false);
     const [filters, setFilters] = useState({
         serviceName: ""
     });
@@ -22,6 +28,7 @@ export default function ServicePage() {
 
     useEffect(() => {
         fetchServices();
+        fetchHourlyRate();
     }, []);
 
     useEffect(() => {
@@ -38,6 +45,16 @@ export default function ServicePage() {
         }
     };
 
+    const fetchHourlyRate = async () => {
+        try {
+            const response = await axios.get('/hourly-rate/');
+            setHourlyRate(response.data.rate);
+        } catch (error) {
+            console.error('Error fetching hourly rate:', error);
+            toast.error('Error al cargar el precio por hora');
+        }
+    };
+
     const handleDeleteService = async (id) => {
         try {
             await axios.delete(`/services/${id}/`);
@@ -51,7 +68,7 @@ export default function ServicePage() {
 
     const filterServices = () => {
         const tempServices = services.filter(service =>
-            service.name.toLowerCase().includes(filters.serviceName.toLowerCase())
+            service.project_name.toLowerCase().includes(filters.serviceName.toLowerCase())
         );
         setFilteredServices(tempServices);
     };
@@ -73,7 +90,7 @@ export default function ServicePage() {
     const downloadPDF = async (serviceId) => {
         try {
             const response = await axios.get(`services/${serviceId}/pdf/`, {
-                responseType: 'blob',
+            responseType: 'blob',
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -89,66 +106,81 @@ export default function ServicePage() {
         }
     };
 
+    const updateHourlyRate = async (newRate) => {
+        try {
+            await axios.put('/hourly-rate/', { rate: newRate });
+            setHourlyRate(newRate);
+            toast.success('Precio por hora actualizado exitosamente');
+        } catch (error) {
+            console.error('Error updating hourly rate:', error);
+            toast.error('Error al actualizar el precio por hora');
+        }
+    };
+
     return (
-        <div className='home'>
+        <div className="home p-5">
             <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-            <h2 className='title-container'>Gestión de Servicios</h2>
-            <div className={styles.filterContainer}>
-                <span>FILTROS</span>
-                <input 
-                    type="text" 
-                    name="serviceName" 
-                    placeholder="Buscar por nombre del servicio..." 
-                    value={filters.serviceName} 
-                    onChange={handleFilterChange} 
+            <h2 className="text-center text-2xl font-bold text-white bg-gray-900 rounded-lg p-5 mb-5">Gestión de Servicios</h2>
+            <div className="mb-5 flex items-center gap-2 flex-wrap">
+                <span className="font-bold text-gray-700">FILTROS</span>
+                <input
+                    type="text"
+                    name="serviceName"
+                    placeholder="Buscar por nombre del servicio..."
+                    value={filters.serviceName}
+                    onChange={handleFilterChange}
+                    className="flex-grow p-2 border border-gray-300 rounded"
                 />
             </div>
-            <table className={styles.styledTable}>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Horas invertidas</th>
-                        <th>Costo de materiales</th>
-                        <th>Costo total</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredServices.map(service => (
-                        <tr key={service.id}>
-                            <td data-tooltip-id="service-tooltip" data-tooltip-content={service.project_name}>{service.project_name}</td>
-                            <td data-tooltip-id="service-tooltip" data-tooltip-content={service.description}>{service.description}</td>
-                            <td>{service.inverted_hours} horas</td>
-                            <td>${service.material_cost}</td>
-                            <td>${service.total_cost}</td>
-                            <td>
-                                <button onClick={() => downloadPDF(service.id)} className={styles.iconBtn}>
-                                        <i className='bx bxs-file-pdf edit'></i>
-                                </button>
-                                <button onClick={() => openDetailsModal(service)} className={styles.iconBtn}>
-                                    <i className='bx bxs-edit-alt edit'></i>
-                                </button>
-                                <button onClick={() => handleDeleteService(service.id)} className={styles.iconBtn}>
-                                    <i className='bx bxs-trash-alt delete'></i>
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ReactTooltip id="service-tooltip" multiline={true} effect="solid"/>
+            <div className="mb-5 flex justify-center gap-2">
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800" onClick={openModal}>Crear Servicio</button>
+                {user?.is_staff && (
+                    <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-800" onClick={openHourlyRateModal}>Opciones</button>
+                )}
+            </div>
+            <div className="flex flex-wrap gap-5 justify-center">
+                {filteredServices.map(service => (
+                    <div key={service.id} className="bg-white rounded shadow-md w-full max-w-sm p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 className="text-lg font-bold mb-2">{service.project_name}</h3>
+                            <p className="mb-2"><strong>Descripción:</strong> {service.description}</p>
+                            <p className="mb-2"><strong>Horas invertidas:</strong> {service.inverted_hours} horas</p>
+                            <p className="mb-2"><strong>Costo de materiales:</strong> ${service.material_cost}</p>
+                            <p className="mb-2"><strong>Costo total:</strong> ${(service.inverted_hours * hourlyRate + service.material_cost).toFixed(2)}</p>
+                        </div>
+                        <div className="flex justify-end gap-2 mt-3">
+                            <button onClick={() => downloadPDF(service.id)} className="text-xl text-black-600 hover:text-red-600">
+                                <i className='bx bxs-file-pdf edit'></i>
+                            </button>
+                            <button onClick={() => openDetailsModal(service)} className="text-xl text-black-600 hover:text-blue-600">
+                                <i className='bx bxs-edit-alt edit'></i>
+                            </button>
+                            <button onClick={() => handleDeleteService(service.id)} className="text-xl text-black-600 hover:text-red-600">
+                                <i className='bx bxs-trash-alt delete'></i>
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <ReactTooltip id="service-tooltip" multiline={true} effect="solid" />
             <ServicePageDetails
                 isOpen={isDetailsModalOpen}
                 closeModal={closeDetailsModal}
                 service={selectedService}
                 refreshServices={fetchServices}
+                hourlyRate={hourlyRate || 0}
             />
-            <button className={styles.createButton} onClick={openModal}>Crear Servicio</button>
             <ServicePageCreate
                 isOpen={isModalOpen}
                 closeModal={closeModal}
                 refreshServices={fetchServices}
+                hourlyRate={hourlyRate || 0}
+            />
+            <AdminHourlyRate
+                isOpen={isHourlyRateModalOpen}
+                closeModal={closeHourlyRateModal}
+                currentRate={hourlyRate || 0}
+                updateRate={updateHourlyRate}
             />
         </div>
     );

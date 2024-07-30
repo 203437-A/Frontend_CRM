@@ -50,43 +50,112 @@ const EmployeeCreate = ({ isOpen, closeModal, refreshEmployees }) => {
 
     return (
         <Modal isOpen={isOpen} closeModal={closeModal}>
-            <div className="form-container">
-                <form onSubmit={handleSubmit}>
-                    <h2>Crear empleado</h2>
-                    <div className="form-row">
-                        <div className="form-column">
-                            <label className="form-label">Usuario</label>
-                            <input type="text" className="form-input" name="username" value={formData.username} onChange={handleChange} required />
+            <div className="bg-white p-5 rounded-lg w-full max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+                    <h2 className="col-span-2 text-2xl font-bold mb-4">Crear empleado</h2>
 
-                            <label className="form-label">Nombre</label>
-                            <input type="text" className="form-input" name="first_name" value={formData.first_name} onChange={handleChange} required />
-
-                            <label className="form-label">Apellido</label>
-                            <input type="text" className="form-input" name="last_name" value={formData.last_name} onChange={handleChange} required />
-                        </div>
-                        <div className="form-column">
-                            <label className="form-label">Teléfono</label>
-                            <input type="text" className="form-input" name="phone_number" value={formData.phone_number} onChange={handleChange} required />
-
-                            <label className="form-label">¿Es administrador?</label>
-                            <select className="form-select" name="is_staff" value={formData.is_staff} onChange={handleChange} required>
-                                <option value="false">No</option>
-                                <option value="true">Sí</option>
-                            </select>
-
-                            <label className="form-label">Contraseña</label>
-                            <input type="password" className="form-input" name="password" value={formData.password} onChange={handleChange} required />
-                        </div>
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Usuario</label>
+                        <input
+                            type="text"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                    <div className="full-width">
-                        <label className="form-label">Correo</label>
-                        <input type="email" className="form-input" name="email" value={formData.email} onChange={handleChange} required />
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Teléfono</label>
+                        <input
+                            type="text"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="phone_number"
+                            value={formData.phone_number}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                    <div className="modal-buttons">
-                        <button type="button" className="button-cancel" onClick={closeModal}>Cancelar</button>
-                        <button type="submit" className="button-submit">Crear Empleado</button>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Nombre</label>
+                        <input
+                            type="text"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="first_name"
+                            value={formData.first_name}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                </form> 
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">¿Es administrador?</label>
+                        <select
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="is_staff"
+                            value={formData.is_staff}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="false">No</option>
+                            <option value="true">Sí</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Apellido</label>
+                        <input
+                            type="text"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="last_name"
+                            value={formData.last_name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-bold text-gray-700">Contraseña</label>
+                        <input
+                            type="password"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="col-span-2 flex flex-col">
+                        <label className="font-bold text-gray-700">Correo</label>
+                        <input
+                            type="email"
+                            className="mt-1 p-2 border border-gray-300 rounded"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="col-span-2 flex justify-between mt-4">
+                        <button
+                            type="button"
+                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 mr-2"
+                            onClick={closeModal}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                        >
+                            Crear 
+                        </button>
+                    </div>
+                </form>
             </div>
         </Modal>
     );
