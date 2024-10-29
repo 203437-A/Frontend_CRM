@@ -15,7 +15,7 @@ export default function ServicePage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [isHourlyRateModalOpen, setIsHourlyRateModalOpen] = useState(false);
-    const [hourlyRate, setHourlyRate] = useState(null);  // Cambiado a null para manejar el estado de carga inicial
+    const [hourlyRate, setHourlyRate] = useState(null);  
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const openHourlyRateModal = () => setIsHourlyRateModalOpen(true);

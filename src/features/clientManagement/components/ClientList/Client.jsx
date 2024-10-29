@@ -7,7 +7,6 @@ import ClientDetails from '../ClientDetails/ClientDetails';
 import ClientCreate from '../ClientCreate/ClientCreate'; 
 import { useNavigate } from 'react-router-dom';
 
-
 export default function Client() {
     const [clients, setClients] = useState([]);
     const [selectedClient, setSelectedClient] = useState(null);
@@ -17,9 +16,7 @@ export default function Client() {
     const closeModal = () => setIsModalOpen(false);
     const [filter, setFilter] = useState("");
     const [filteredClients, setFilteredClients] = useState([]);
-    //
     const [categories, setCategories] = useState([]);
-    // const [selectedCategories, setSelectedCategories] = useState([]);
 
     useEffect(() => {
         fetchCategories();
@@ -29,8 +26,6 @@ export default function Client() {
     useEffect(() => {
         filterClients();
     }, [clients, filter]);
-
-    //
 
     const fetchCategories = async () => {
         try {
@@ -71,7 +66,6 @@ export default function Client() {
         setIsDetailsModalOpen(true);  
     };
 
-    //FILTROS
     const filterClients = () => {
         let tempClients = clients.filter(cli =>
             cli.first_name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -84,7 +78,6 @@ export default function Client() {
         setFilter(e.target.value);
     };
 
-    //
     const getCategoryNames = (categories) => {
         return categories ? categories.map(category => category.name).join(', ') : '';
     };
@@ -149,5 +142,4 @@ export default function Client() {
             />
         </div>
     );
-    
 }

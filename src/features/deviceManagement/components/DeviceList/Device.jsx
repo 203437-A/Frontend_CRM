@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import DeviceDetails from '../DeviceDetails/DeviceDetails';
 import DeviceCreate from '../DeviceCreate/DeviceCreate';
@@ -146,6 +147,12 @@ export default function Device() {
                             <p className="mb-2" ><strong>Fecha de inicio:</strong> {formatDate(device.start_date)}</p>
                             <p className="mb-2" ><strong>Fecha de finalización:</strong> {formatDate(device.finished_date)}</p>
                             <p className="mb-2" ><strong>Codigo:</strong> {device.unique_code}</p>
+                            <p className="mb-2">
+                                <strong>Enlace de estado de reparación:</strong>{' '}
+                                <Link to={`/device-status?code=${device.unique_code}`} className="text-blue-500 hover:underline">
+                                    Estado del dispositivo
+                                </Link>
+                            </p>
                         </div>
                         <div className="flex justify-end gap-2 mt-3">
                             <button onClick={() => openDetailsModal(device)} className="text-xl text-black-600 hover:text-blue-600">

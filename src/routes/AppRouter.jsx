@@ -21,9 +21,9 @@ export default function AppRouter() {
     return (
         <Router>
             <Routes>
+                <Route path="/device-status/" element={<DeviceStatus />} />
                 <Route element={<PublicRoute />}>
                     <Route path="/login" element={<Login />} />
-                    <Route path="/device-status/" element={<DeviceStatus />} />
                 </Route>
                 <Route element={<LayoutWithSidebar />}>
                     <Route element={<PrivateRoute />}>

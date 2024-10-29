@@ -12,7 +12,7 @@ const ProjectTaskCreate = ({ isOpen, closeModal, refreshTasks, projectId, projec
         employee: '',
         start_date: '',
         finished_date: '',
-        project: projectName // Inicializar con el nombre del proyecto
+        project: projectName 
     });
     const [employees, setEmployees] = useState([]);
 

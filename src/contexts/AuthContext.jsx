@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import { refreshAuthToken } from '../config/auth'; 
 
 const AuthContext = createContext({});
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log("Refreshing token...");
+            console.log("Refrescar token...");
             refreshAuthToken();
         }, 60 * 60 * 1000); 
 

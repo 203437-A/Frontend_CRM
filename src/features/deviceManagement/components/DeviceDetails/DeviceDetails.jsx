@@ -12,7 +12,7 @@ const DeviceDetails = ({ isOpen, closeModal, device, refreshDevices }) => {
         device_status: '',
         start_date: '',
         finished_date: '',
-        unique_code: '', // Añadido
+        unique_code: '',
     });
     const [settings, setSettings] = useState({
         allow_weekends: false,
@@ -104,7 +104,7 @@ const DeviceDetails = ({ isOpen, closeModal, device, refreshDevices }) => {
         if (validateDate(value)) {
             setDetails(prevDetails => ({ ...prevDetails, [name]: value }));
         } else {
-            setDetails(prevDetails => ({ ...prevDetails, [name]: '' })); // Clear the input if validation fails
+            setDetails(prevDetails => ({ ...prevDetails, [name]: '' })); 
         }
     };
 
@@ -204,17 +204,6 @@ const DeviceDetails = ({ isOpen, closeModal, device, refreshDevices }) => {
                             className="mt-1 p-2 border border-gray-300 rounded"
                             name="unique_code"
                             value={details.unique_code}
-                            readOnly
-                        />
-                    </div>
-                    
-                    <div className="col-span-2 flex flex-col">
-                        <label className="font-bold text-gray-700">URL de Consulta</label>
-                        <input
-                            type="text"
-                            className="mt-1 p-2 border border-gray-300 rounded"
-                            name="url"
-                            value={`${window.location.origin}/device-status`}
                             readOnly
                         />
                     </div>

@@ -27,7 +27,6 @@ export default function Employee() {
         filterEmployees();
     }, [employees, filter, isStaffFilter, nonAdminFilter]);
 
-    //
     const fetchEmployees = async () => {
         try {
             const response = await axios.get('/employees/'); 
@@ -53,12 +52,7 @@ export default function Employee() {
             }
         }
     };
-    
-    // const handleSelectEmployee = (employee) => {
-    //     setSelectedEmployee(employee);
-    // };
 
-    //FILTROS
     const filterEmployees = () => {
         let tempEmployees = employees.filter(emp =>
             emp.first_name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -93,7 +87,6 @@ export default function Employee() {
         }
     };
     
-    //NUEVO
     const openDetailsModal = (employee) => {
         setSelectedEmployee(employee);
         setIsDetailsModalOpen(true);
@@ -102,7 +95,6 @@ export default function Employee() {
     const closeDetailsModal = () => {
         setIsDetailsModalOpen(false);
     };
-    //FIN
 
     return (
         <div className="home p-5">
