@@ -19,3 +19,6 @@ Sigue estos pasos para configurar el proyecto en tu entorno local.
     npm install
 3. **Inicia el servidor de desarrollo**:
     npm run dev
+4. **PRIMER USUARIO**:
+    username='admin'
+    password='admin05'
